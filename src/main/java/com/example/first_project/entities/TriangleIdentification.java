@@ -1,11 +1,11 @@
 package com.example.first_project.entities;
 
-public class JsonIdentification {
-    private boolean isEquilateral;
-    private boolean isIsosceles;
-    private boolean isRectangular;
+public class TriangleIdentification {
+    private boolean isEquilateral; //равносторонний
+    private boolean isIsosceles; //равнобедренный
+    private boolean isRectangular; //прямоугольный
 
-    public JsonIdentification(boolean isEquilateral, boolean isIsosceles, boolean isRectangular) {
+    public TriangleIdentification(boolean isEquilateral, boolean isIsosceles, boolean isRectangular) {
         this.isEquilateral = isEquilateral;
         this.isIsosceles = isIsosceles;
         this.isRectangular = isRectangular;
