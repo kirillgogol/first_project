@@ -6,16 +6,32 @@ import org.junit.Test;
 import javax.validation.ConstraintViolationException;
 import static org.junit.jupiter.api.Assertions.*;
 import org.junit.runner.RunWith;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
+import org.springframework.boot.test.web.client.TestRestTemplate;
 import org.springframework.test.context.junit4.SpringRunner;
+import org.springframework.web.bind.MissingServletRequestParameterException;
 
-@SpringBootTest
 @RunWith(SpringRunner.class)
+@SpringBootTest(webEnvironment = SpringBootTest.WebEnvironment.DEFINED_PORT)
 public class MainControllerTest {
+
+    @Autowired
+    private MainController mainController;
+
+    @Autowired
+    private TestRestTemplate testRestTemplate;
+
+    @Test//(expected = MissingServletRequestParameterException.class)
+    public void missingParam() throws MissingServletRequestParameterException{
+        String actual = testRestTemplate.getForObject("http://localhost:8080/identification?x=3&y=6", String.class);
+        String excepted = "{\"message\":\"Required request parameter 'z' for method parameter type double is not present\",\"code\":400}";
+        //System.out.println(actual);
+        assertEquals(excepted, actual);
+    }
 
     @Test
     public void positiveValue() {
-        MainController mainController = new MainController();
         TriangleIdentification actual = mainController.identification(3, 5, 3);
         boolean[] actualArr = new boolean[] {actual.getIsEquilateral(), actual.getIsIsosceles(), actual.getIsRectangular()};
         boolean[] exceptedArr = new boolean[] {false, true, false};
@@ -24,9 +40,7 @@ public class MainControllerTest {
 
     @Test(expected = ConstraintViolationException.class)
     public void negativeParam() throws ConstraintViolationException{
-        MainController mainController = new MainController();
         TriangleIdentification actual = mainController.identification(3, 5, -1);
-        //assertThrows(ConstraintViolationException.class, ()->mainController.identification(3, 5, -1));
     }
 
 }
