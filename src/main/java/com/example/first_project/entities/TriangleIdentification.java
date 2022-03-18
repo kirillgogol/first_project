@@ -1,9 +1,14 @@
 package com.example.first_project.entities;
 
 public class TriangleIdentification {
+
     private boolean isEquilateral; //равносторонний
     private boolean isIsosceles; //равнобедренный
     private boolean isRectangular; //прямоугольный
+
+    public TriangleIdentification() {
+
+    }
 
     public TriangleIdentification(boolean isEquilateral, boolean isIsosceles, boolean isRectangular) {
         this.isEquilateral = isEquilateral;
