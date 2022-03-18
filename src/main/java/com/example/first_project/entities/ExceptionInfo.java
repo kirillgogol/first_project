@@ -1,4 +1,4 @@
-package com.example.first_project.exceptions;
+package com.example.first_project.entities;
 
 import com.fasterxml.jackson.annotation.JsonProperty;
 

@@ -1,6 +1,7 @@
 package com.example.first_project.services;
 
 import com.example.first_project.entities.TriangleIdentification;
+import com.example.first_project.exceptions.TriangleDoesNotExistException;
 import org.springframework.stereotype.Service;
 
 @Service
@@ -28,4 +29,10 @@ public class TriangleIdentificationService {
 
         return new TriangleIdentification(isEquilateral, isIsosceles, isRight);
     }
+
+	public void validate(double x, double y, double z) {
+		if (x + y <= z || y + z <= x || x + z <= y) {
+			throw new TriangleDoesNotExistException("Triangle does not exist");
+		}
+	}
 }
