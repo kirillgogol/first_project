@@ -39,4 +39,16 @@ public class TriangleIdentification {
     public boolean getIsRectangular() {
         return isRectangular;
     }
+
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (o == null) return false;
+        if (getClass() != o.getClass()) return false;
+
+        TriangleIdentification triangleIdentification = (TriangleIdentification) o;
+        return ((this.isEquilateral == triangleIdentification.isEquilateral
+                && this.isIsosceles == triangleIdentification.isIsosceles
+                && this.isRectangular == triangleIdentification.isRectangular));
+    }
 }
