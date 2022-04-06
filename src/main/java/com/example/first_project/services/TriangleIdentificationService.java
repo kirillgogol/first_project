@@ -23,8 +23,8 @@ public class TriangleIdentificationService {
         triangle = new Triangle(x, y, z);
         TriangleIdentification triangleIdentification;
 
-        if(hashMap.isContain(triangle)) {
-            triangleIdentification = hashMap.getParameters(triangle);
+        if(hashMap.findByKey(triangle)) {
+            triangleIdentification = hashMap.getTriangleIdentification(triangle);
             logger.info("get hashMap");
         }
         else {
@@ -60,4 +60,8 @@ public class TriangleIdentificationService {
 			throw new TriangleDoesNotExistException("Triangle does not exist");
 		}
 	}
+
+    public TriangleIdentificationHash getTriangleIdentificationHash(){
+        return hashMap;
+    }
 }

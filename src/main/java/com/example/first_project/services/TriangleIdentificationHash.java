@@ -2,15 +2,18 @@ package com.example.first_project.services;
 
 import com.example.first_project.entities.Triangle;
 import com.example.first_project.entities.TriangleIdentification;
+import com.fasterxml.jackson.annotation.JsonProperty;
 import org.springframework.stereotype.Component;
 
 import java.util.HashMap;
+import java.util.LinkedHashMap;
 
 @Component
 public class TriangleIdentificationHash {
-    private final HashMap<Triangle, TriangleIdentification> hashMap = new HashMap<>();
+    @JsonProperty
+    private final HashMap<Triangle, TriangleIdentification> hashMap = new LinkedHashMap<>();
 
-    public boolean isContain(Triangle key) {
+    public boolean findByKey(Triangle key) {
         return hashMap.containsKey(key);
     }
 
@@ -18,7 +21,7 @@ public class TriangleIdentificationHash {
         hashMap.put(key, result);
     }
 
-    public TriangleIdentification getParameters(Triangle key) {
+    public TriangleIdentification getTriangleIdentification(Triangle key) {
         return hashMap.get(key);
     }
 }
