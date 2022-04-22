@@ -1,5 +1,6 @@
 package com.example.first_project.services;
 
+import com.example.first_project.counter.RequestCounterThread;
 import com.example.first_project.entities.Triangle;
 import com.example.first_project.entities.TriangleIdentification;
 import com.example.first_project.exceptions.TriangleDoesNotExistException;
@@ -19,7 +20,7 @@ public class TriangleIdentificationService {
     private TriangleIdentificationHash hashMap;
 
     public TriangleIdentification identificate(double x, double y, double z) {
-
+        new RequestCounterThread().start();
         triangle = new Triangle(x, y, z);
         TriangleIdentification triangleIdentification;
 
