@@ -10,6 +10,9 @@ import org.springframework.stereotype.Service;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 
+import java.util.Arrays;
+import java.util.List;
+
 @Service
 public class TriangleIdentificationService {
 
@@ -64,5 +67,21 @@ public class TriangleIdentificationService {
 
     public TriangleIdentificationHash getTriangleIdentificationHash(){
         return hashMap;
+    }
+
+    public static double calculateSumOfSides(Triangle triangle) {
+        List<Double> resList = Arrays.asList(triangle.getX(), triangle.getY(), triangle.getZ());
+        return resList.stream().mapToInt(Double::intValue).sum();
+    }
+
+    public static double findMinOfSides(Triangle triangle) {
+        List<Double> resList = Arrays.asList(triangle.getX(), triangle.getY(), triangle.getZ());
+
+        return resList.stream().mapToInt(Double::intValue).min().getAsInt();
+    }
+
+    public static double findMaxOfSides(Triangle triangle) {
+        List<Double> resList = Arrays.asList(triangle.getX(), triangle.getY(), triangle.getZ());
+        return resList.stream().mapToInt(Double::intValue).max().getAsInt();
     }
 }
