@@ -22,9 +22,8 @@ public class TriangleIdentificationService {
     @Autowired
     private TriangleIdentificationHash hashMap;
 
-    public TriangleIdentification identificate(double x, double y, double z) {
+    public TriangleIdentification identificate(Triangle triangle) {
         new RequestCounterThread().start();
-        triangle = new Triangle(x, y, z);
         TriangleIdentification triangleIdentification;
 
         if(hashMap.findByKey(triangle)) {
@@ -33,7 +32,9 @@ public class TriangleIdentificationService {
         }
         else {
             boolean isEquilateral = false, isIsosceles = false, isRight = false;
-
+            double x = triangle.getX();
+            double y = triangle.getY();
+            double z = triangle.getZ();
             if (x == y && x == z) {
                 isEquilateral = true;
             }
@@ -71,17 +72,17 @@ public class TriangleIdentificationService {
 
     public static double calculateSumOfSides(Triangle triangle) {
         List<Double> resList = Arrays.asList(triangle.getX(), triangle.getY(), triangle.getZ());
-        return resList.stream().mapToInt(Double::intValue).sum();
+        return resList.stream().mapToDouble(Double::doubleValue).sum();
     }
 
     public static double findMinOfSides(Triangle triangle) {
         List<Double> resList = Arrays.asList(triangle.getX(), triangle.getY(), triangle.getZ());
 
-        return resList.stream().mapToInt(Double::intValue).min().getAsInt();
+        return resList.stream().mapToDouble(Double::doubleValue).min().getAsDouble();
     }
 
     public static double findMaxOfSides(Triangle triangle) {
         List<Double> resList = Arrays.asList(triangle.getX(), triangle.getY(), triangle.getZ());
-        return resList.stream().mapToInt(Double::intValue).max().getAsInt();
+        return resList.stream().mapToDouble(Double::doubleValue).max().getAsDouble();
     }
 }

@@ -1,8 +1,8 @@
 package com.example.first_project.controllers;
 
+import com.example.first_project.entities.ResultDTO;
 import com.example.first_project.entities.Triangle;
 import com.example.first_project.entities.TriangleIdentification;
-import com.example.first_project.exceptions.RestExceptionHandler;
 import com.example.first_project.exceptions.TriangleDoesNotExistException;
 import com.example.first_project.services.TriangleIdentificationHash;
 import com.example.first_project.services.TriangleIdentificationService;
@@ -16,7 +16,6 @@ import org.springframework.web.bind.annotation.*;
 
 import javax.validation.Valid;
 import javax.validation.constraints.Positive;
-import java.sql.PreparedStatement;
 import java.util.LinkedList;
 import java.util.List;
 
@@ -36,20 +35,24 @@ public class MainController {
 			throws TriangleDoesNotExistException {
 		triangleIdentificationService.validate(x, y, z);
 		logger.info("Successfully GetMapping");
-		return triangleIdentificationService.identificate(x, y, z);
+		return triangleIdentificationService.identificate(new Triangle(x, y, z));
 	}
 
 	@PostMapping("/identification")
 	public ResponseEntity<?> calculateBulkParams(@Valid @RequestBody List<Triangle> bodyList) {
-		Triangle triangle = new Triangle();
+        if (bodyList.isEmpty()) {
+            return new ResponseEntity<>(new ResultDTO(null, null), HttpStatus.OK);
+        }
+        List<Triangle> triangleList = new LinkedList<>();
 		List<TriangleIdentification> resultList = new LinkedList<>();
 		bodyList.forEach((currentElement) -> {
-			try {
-				resultList.add(triangleIdentificationService.identificate(currentElement.getX(),
-						currentElement.getY(), currentElement.getZ()));
-				triangle.setSumOfSides(TriangleIdentificationService.calculateSumOfSides(currentElement));
-				triangle.setMinSide(TriangleIdentificationService.findMinOfSides(currentElement));
-				triangle.setMaxSide(TriangleIdentificationService.findMaxOfSides(currentElement));
+            try {
+                Triangle triangle = new Triangle(currentElement.getX(), currentElement.getY(), currentElement.getZ());
+                resultList.add(triangleIdentificationService.identificate(triangle));
+                triangle.setSumOfSides(TriangleIdentificationService.calculateSumOfSides(currentElement));
+                triangle.setMinSide(TriangleIdentificationService.findMinOfSides(currentElement));
+                triangle.setMaxSide(TriangleIdentificationService.findMaxOfSides(currentElement));
+                triangleList.add(triangle);
 			} catch (TriangleDoesNotExistException e) {
 				logger.error("Error in postMapping");
 			}
@@ -57,8 +60,7 @@ public class MainController {
 
 		logger.info("Successfully postMapping");
 
-		return new ResponseEntity<>(resultList + "\nSum: " + triangle.getSumOfSides() + "\nMax result: " +
-				triangle.getMaxSide() + "\nMin result: " + triangle.getMinSide(), HttpStatus.OK);
+		return new ResponseEntity<>(new ResultDTO(resultList, triangleList), HttpStatus.OK);
 	}
 
     @GetMapping("/cache")
