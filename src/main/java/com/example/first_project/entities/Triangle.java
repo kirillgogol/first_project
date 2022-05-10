@@ -1,7 +1,16 @@
 package com.example.first_project.entities;
 
+import com.fasterxml.jackson.annotation.JsonProperty;
+
 public class Triangle {
     private double x, y, z;
+
+    @JsonProperty
+    Double sumOfSides;
+    @JsonProperty
+    Double maxSide;
+    @JsonProperty
+    Double minSide;
 
     public Triangle() {}
 
@@ -9,6 +18,30 @@ public class Triangle {
         this.x = x;
         this.y = y;
         this.z = z;
+    }
+
+    public void setSumOfSides(Double sumOfSides) {
+        this.sumOfSides = sumOfSides;
+    }
+
+    public void setMaxSide(Double maxSide) {
+        this.maxSide = maxSide;
+    }
+
+    public void setMinSide(Double minSide) {
+        this.minSide = minSide;
+    }
+
+    public Double getSumOfSides() {
+        return sumOfSides;
+    }
+
+    public Double getMinSide() {
+        return minSide;
+    }
+
+    public Double getMaxSide() {
+        return maxSide;
     }
 
     public void setX(double x) {

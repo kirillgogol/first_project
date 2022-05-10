@@ -24,4 +24,8 @@ public class TriangleIdentificationHash {
     public TriangleIdentification getTriangleIdentification(Triangle key) {
         return hashMap.get(key);
     }
+
+    public boolean isContain(Triangle key) {
+        return hashMap.containsKey(key);
+    }
 }
